@@ -61,7 +61,7 @@ export const getAUserHandler = async (req: express.Request, res: express.Respons
         if (!get) {
             return res.status(400).send({message: 'Could not get user by id.'})
         }
-        return res.status(200).send({message: 'Successfully got all users', get});
+        return res.status(200).send({message: 'Successfully got a user', get});
     }    catch (err) {
         console.log(err, 'Invalid err');
         return res.status(500).send({message: 'Internal server error.'}); 
