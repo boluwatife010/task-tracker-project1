@@ -1,10 +1,16 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
+type TaskStatus = "To do" | "In progress" | "Done";
 const  taskSchema =new Schema ({
     title: {
         type: String,
         required: true,
     },
+    name: {
+        type: String,
+        required: true,
+        unique: true,
+      },
     description: {
         type: String,
         required: true,
@@ -15,6 +21,17 @@ const  taskSchema =new Schema ({
     },
     notes: {
         type: String
+    },
+    comments: {
+        comment : String,
+        comment_id: { type: mongoose.Schema.Types.ObjectId}
+    },
+    history: [String],
+    priority: String,
+    status: {
+        type: String,
+        enum: ["To do", "In progress", "Done"] as TaskStatus[],
+        default: 'To do'
     }
 
 })

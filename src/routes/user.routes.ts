@@ -1,5 +1,5 @@
 import express from 'express';
-import { userRegistrationHandler, userLoginHandler, updateUserHandler,getAUserHandler,deleteAUserHandler, getAllUsersHandler } from 'src/controllers/user.controllers';
+import { userRegistrationHandler, userLoginHandler, updateUserHandler,getAUserHandler,deleteAUserHandler, getAllUsersHandler } from '../controllers/user.controllers';
 const router = express.Router();
 router.post('/register', userRegistrationHandler );
 router.post('/login/:id', userLoginHandler);

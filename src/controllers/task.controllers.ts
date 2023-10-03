@@ -1,5 +1,5 @@
 import express from 'express';
-import { createTask, getATask, getAllTasks, updateATask, deleteATask, searchATask } from 'src/services/task.services';
+import { createTask, getATask, getAllTasks, updateATask, deleteATask, searchATask, filterTasks, categorizeTasks} from 'src/services/task.services';
 // A function to handle the create task 
 export const createTaskHandler = async (req: express.Request, res: express.Response) => {
     const {title, dueDate, description} = req.body;
@@ -105,4 +105,45 @@ export const deleteATaskHandler = async (req: express.Request, res: express.Resp
         console.log(err, 'Invalid err');
         return res.status(500).send({message: 'Internal server error.'});
        }
+}
+// A function to handle task filtering
+export const filterTasksHandler = async (req: express.Request, res: express.Response) => {
+    const status = req.query.status as string;
+    const priority = req.query.priority as string;
+    const assignee = req.query.assignee as string;
+    try {
+        if (!status || !priority || !assignee) {
+            return res.status(400).send({message: 'Please provide the required query params.'})
+        }
+        const filtering = await filterTasks({status, priority, assignee});
+        if (!filtering) {
+            return res.status(400).send({message: 'Could not get the query details'});
+        }
+        return res.status(200).send({message: 'Successfully filtered the tasks', data: filtering});
+    }   catch (err) {
+        console.log(err, 'Invalid err');
+        return res.status(500).send({message: 'Internal server error.'});
+       }
+}
+// A function to handle the task categorizing
+export const categorizeTaskHandler = async (req: express.Request, res: express.Response) => {
+    const {description, name} = req.body;
+    try {
+        if (!description || !name) {
+            return res.status(400).send({message: 'Please provide the above details.'});
+        }
+        const category = await categorizeTasks({description, name});
+        if (!category) {
+            return res.status(400).send({message: 'Could not create category'});
+        }
+        return res.status(200).send({message: 'Successfully created category', data: category});
+    }   catch (err) {
+        console.log(err, 'Invalid err');
+        return res.status(500).send({message: 'Internal server error.'});
+       }
+};
+// A function to handle the task commenting
+export const commentTaskHandler = async (req: express.Request, res: express.Response) => {
+    const {comment} = req.body;
+    const {id} = req.params;
 }
