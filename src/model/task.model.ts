@@ -22,10 +22,7 @@ const  taskSchema =new Schema ({
     notes: {
         type: String
     },
-    comments: {
-        comment : String,
-        comment_id: { type: mongoose.Schema.Types.ObjectId}
-    },
+   
     history: [String],
     priority: String,
     status: {

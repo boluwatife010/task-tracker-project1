@@ -1,5 +1,5 @@
 import express from 'express';
-import { createTask, getATask, getAllTasks, updateATask, deleteATask, searchATask, filterTasks, categorizeTasks} from 'src/services/task.services';
+import { createTask, getATask, getAllTasks, updateATask, deleteATask, searchATask, filterTasks, categorizeTasks, historyTask} from 'src/services/task.services';
 // A function to handle the create task 
 export const createTaskHandler = async (req: express.Request, res: express.Response) => {
     const {title, dueDate, description} = req.body;
@@ -142,8 +142,57 @@ export const categorizeTaskHandler = async (req: express.Request, res: express.R
         return res.status(500).send({message: 'Internal server error.'});
        }
 };
-// A function to handle the task commenting
-export const commentTaskHandler = async (req: express.Request, res: express.Response) => {
-    const {comment} = req.body;
+// A function to handle the task history
+export const historyTaskHandler = async (req: express.Request, res: express.Response) => {
+    const {history} = req.body;
     const {id} = req.params;
+   try {
+    if (!history) {
+        return res.status(400).send({message: 'Please provide a valid history'})
+    }
+    const histories = await historyTask(id, history);
+    if (!histories) {
+        return res.status(400).send({message: 'Could not get history of task'});
+    }
+    return res.status(200).send({message: 'Successfully got history', data: histories});
+   }    catch (err) {
+    console.log(err, 'Invalid err');
+    return res.status(500).send({message: 'Internal server error.'});
+   }
+}
+// A function to handle the priority of task
+export const priorityTaskHandler = async (req: express.Request, res: express.Response) => {
+    const {priority} = req.body;
+    const {id} = req.params;
+   try {
+    if (!priority) {
+        return res.status(400).send({message: 'Please provide a valid priority string'})
+    }
+    const priorities = await historyTask(id, priority);
+    if (!priorities) {
+        return res.status(400).send({message: 'Could not get priority of task'});
+    }
+    return res.status(200).send({message: 'Successfully got priority', data: priorities});
+   }    catch (err) {
+    console.log(err, 'Invalid err');
+    return res.status(500).send({message: 'Internal server error.'});
+   }
+}
+// A function to handle the status of a task
+export const statusTaskHandler = async (req: express.Request, res: express.Response) => {
+    const {status} = req.body;
+    const {id} = req.params;
+   try {
+    if (!status) {
+        return res.status(400).send({message: 'Please provide a valid status'})
+    }
+    const getStatus = await historyTask(id, status);
+    if (!getStatus) {
+        return res.status(400).send({message: 'Could not get status of task'});
+    }
+    return res.status(200).send({message: 'Successfully got status of task', data: getStatus});
+   }    catch (err) {
+    console.log(err, 'Invalid err');
+    return res.status(500).send({message: 'Internal server error.'});
+   }
 }

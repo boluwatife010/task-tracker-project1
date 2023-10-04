@@ -100,30 +100,6 @@ export const categorizeTasks = async (body: categorizeTasksRequestBody): Promise
     await categories.save();
     return categories;
 };
-// A function to comment on a task.
-export const commentTask = async (body: commentTaskRequestBody, id: string): Promise<any> => {
-    const {comment, commentId} = body;
-    if (!comment || !commentId) {
-        throw new Error ('Could not create comment');
-    }
-    const finding = await taskModel.findById({id});
-    if (!finding) {
-        throw new Error ('Could not find user with this id.')
-    }
-    const commenting = await taskModel.create({comment, commentId});
-    if (!commenting) {
-        throw new Error ('Could not add comment');
-    }
-    return await commenting.save();
-}
-// A function to get a comment by it's id 
-export const getCommentById = async (id: string) => {
-    const getting = await taskModel.findById({id})
-    if (!getting) {
-        throw new Error ('Could not find comment.');
-    }
-    return getting;
-}
 // A function to get tasks history
 export const historyTask = async (id: string, body: historyRequestBody): Promise<any> => {
     const {history} = body;
