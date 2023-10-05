@@ -1,5 +1,6 @@
 import express from 'express';
-import { createTask, getATask, getAllTasks, updateATask, deleteATask, searchATask, filterTasks, categorizeTasks, historyTask} from 'src/services/task.services';
+import { createTask, getATask, getAllTasks, updateATask, deleteATask, searchATask,
+     filterTasks, categorizeTasks, historyTask, archiveTasks, shareTask, statisticsOfTask} from 'src/services/task.services';
 // A function to handle the create task 
 export const createTaskHandler = async (req: express.Request, res: express.Response) => {
     const {title, dueDate, description} = req.body;
@@ -195,4 +196,43 @@ export const statusTaskHandler = async (req: express.Request, res: express.Respo
     console.log(err, 'Invalid err');
     return res.status(500).send({message: 'Internal server error.'});
    }
+}
+// A function to handle the archiving of completed tasks
+export const archiveTaskHandler = async (req: express.Request, res: express.Response) => {
+    try {
+        const archived = await archiveTasks();
+        if (!archived) {
+            return res.status(400).send({error: 'Could not archive the task with this id'});
+        }
+        return res.status(200).send({message: 'Successfully archived tasks'});
+    }   catch (err) {
+        console.log(err, 'Invalid err');
+        return res.status(500).send({message: 'Internal server error.'});
+       }
+}
+// A function to handle the sharing of tasks
+export const sharingTaskHandler = async (req: express.Request, res: express.Response) => {
+    const {id} = req.params;
+    const {userIdSharing} = req.body;
+    try {
+        if (!userIdSharing) {
+            return res.status(400).send({error: 'Please provide the user id to enable task sharing.'})
+        }
+        const sharing = await shareTask(id, userIdSharing);
+        if (!sharing) {
+            return res.status(400).send({error: 'Could not share task with user.'})
+        }
+        return res.status(200).send({message: 'Successfully shared task with user.'})
+    }   catch (err) {
+        console.log(err, 'Invalid err');
+        return res.status(500).send({message: 'Internal server error.'});
+       }
+}
+// A function to handle the statistics of tasks
+export const statisticsOfTaskHandler = async (req: express.Request, res: express.Response) => {
+    const statistics = await statisticsOfTask();
+    if (!statistics) {
+        return res.status(400).send({error: 'Could not get statistics of tasks'})
+    }
+    return res.status(200).send({message: 'Successfully got statistics of tasks.'})
 }

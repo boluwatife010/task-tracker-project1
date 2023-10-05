@@ -39,3 +39,14 @@ enum TaskStatus {
 export interface newStatusRequestBody {
     status: TaskStatus;
 }
+export interface attachmentRequestBody {
+    filename: string,
+    contentType?: string,
+    size: number,
+    data: Buffer,
+    taskId: mongoose.Types.ObjectId,
+    mimetype?: string
+}
+export interface sharingRequestBody {
+    userIdSharing : mongoose.Types.ObjectId
+}

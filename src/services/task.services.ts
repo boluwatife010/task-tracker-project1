@@ -1,6 +1,6 @@
 // Importing all necessary modules.
 import { FilterQuery } from 'mongoose';
-import { categorizeTasksRequestBody, commentTaskRequestBody, createTaskRequestBody, filterTasksRequestQuery, historyRequestBody, newStatusRequestBody, priorityRequestBody, searchTaskRequestQuery, updateTaskRequestBody } from 'src/interface/task.interface';
+import { categorizeTasksRequestBody, createTaskRequestBody, filterTasksRequestQuery, historyRequestBody, newStatusRequestBody, priorityRequestBody, searchTaskRequestQuery, sharingRequestBody, updateTaskRequestBody } from 'src/interface/task.interface';
 import { taskModel } from 'src/model/task.model';
 // Service function to create a new task
 export const createTask = async (body: createTaskRequestBody): Promise<any> => {
@@ -139,4 +139,35 @@ export const createStatus = async (body: newStatusRequestBody, id: string) => {
      getstatus.status = status;
      await getstatus.save();
      return getstatus;
+}
+// A function to archive tasks
+export const archiveTasks = async () => {
+    const archives = await taskModel.find({status: 'Done'});
+    if (!archives) {
+        throw new Error ('Could not archive the above');
+    }
+    return archives;
+}
+// A function to share tasks with other users
+export const shareTask = async (id: string, body: any) => {
+    const sharing = await taskModel.findById({id});
+    const userIdSharing = body;
+    if (!sharing) {
+        throw new Error ('Could not get the specific id.');
+    }
+    sharing.sharedUsers.push(userIdSharing);
+    await sharing.save();
+    return sharing;
+}
+// A function to calculate the statistics of the tasks that are done
+export const statisticsOfTask = async () => {
+    const totalTasks = await taskModel.countDocuments();
+    if (!totalTasks) {
+        throw new Error ('Could not count total tasks');
+    }
+    const completedTasks = await taskModel.countDocuments({status: 'Done'});
+    if (!completedTasks) {
+        throw new Error ('Could not get the completed tasks')
+    }
+    return {totalTasks, completedTasks};
 }

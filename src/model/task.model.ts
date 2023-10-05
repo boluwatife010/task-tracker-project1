@@ -22,7 +22,7 @@ const  taskSchema =new Schema ({
     notes: {
         type: String
     },
-   
+    sharedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     history: [String],
     priority: String,
     status: {
