@@ -2,9 +2,9 @@ import express from 'express';
 import { createTaskHandler, getATaskHandler, getAllTasksHandler,
      searchATaskHandler, updateATaskHandler, deleteATaskHandler,
      filterTasksHandler, categorizeTaskHandler, historyTaskHandler,
-      priorityTaskHandler, statusTaskHandler, archiveTaskHandler, sharingTaskHandler, statisticsOfTaskHandler} from 'src/controllers/task.controllers';
-import { commentTaskHandler, getCommentHandler, deleteCommentHandler } from 'src/controllers/comment.controllers';
-import { createTaskAttachment, getTaskAttachment, deleteTaskAttachment } from 'src/services/attachment.services';
+      priorityTaskHandler, statusTaskHandler, archiveTaskHandler, sharingTaskHandler, statisticsOfTaskHandler} from '../controllers/task.controllers';
+import { commentTaskHandler, getCommentHandler, deleteCommentHandler } from '../controllers/comment.controllers';
+import { createTaskAttachment, getTaskAttachment, deleteTaskAttachment } from '../services/attachment.services';
 import multer from 'multer';
 const storage = multer.memoryStorage();
 const upload = multer({ storage });

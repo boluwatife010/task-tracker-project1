@@ -1,5 +1,5 @@
 import express from 'express';
-import { getCommentTask, commentTask, deleteCommentTask } from 'src/services/comment.service';
+import { getCommentTask, commentTask, deleteCommentTask } from '../services/comment.service';
 // A function to handle the create a comment handler
 export const commentTaskHandler = async (req: express.Request, res: express.Response) => {
     const {comment} = req.body;

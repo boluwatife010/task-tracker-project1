@@ -1,6 +1,6 @@
 import express from 'express';
 import { createTask, getATask, getAllTasks, updateATask, deleteATask, searchATask,
-     filterTasks, categorizeTasks, historyTask, archiveTasks, shareTask, statisticsOfTask} from 'src/services/task.services';
+     filterTasks, categorizeTasks, historyTask, archiveTasks, shareTask, statisticsOfTask} from '../services/task.services';
 // A function to handle the create task 
 export const createTaskHandler = async (req: express.Request, res: express.Response) => {
     const {title, dueDate, description} = req.body;

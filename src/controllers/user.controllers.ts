@@ -1,5 +1,5 @@
 import { userLogin, userRegistration, getAllUsers, 
-    getUser, deleteUser, userUpdate } from "src/services/user.services";
+    getUser, deleteUser, userUpdate } from "../services/user.services";
 import express from 'express';
 
 export const userRegistrationHandler = async (req:express.Request, res: express.Response) => {

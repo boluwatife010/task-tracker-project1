@@ -1,7 +1,9 @@
 // Importing all necessary modules.
 import { FilterQuery } from 'mongoose';
-import { categorizeTasksRequestBody, createTaskRequestBody, filterTasksRequestQuery, historyRequestBody, newStatusRequestBody, priorityRequestBody, searchTaskRequestQuery, sharingRequestBody, updateTaskRequestBody } from 'src/interface/task.interface';
-import { taskModel } from 'src/model/task.model';
+import { categorizeTasksRequestBody, createTaskRequestBody, filterTasksRequestQuery, 
+    historyRequestBody, newStatusRequestBody, priorityRequestBody,
+     searchTaskRequestQuery,updateTaskRequestBody } from '../interface/task.interface';
+import { taskModel } from '../model/task.model';
 // Service function to create a new task
 export const createTask = async (body: createTaskRequestBody): Promise<any> => {
     const {title, dueDate, description} = body;

@@ -1,6 +1,6 @@
-import { attachmentModel } from "src/model/attachment.model";
+import { attachmentModel } from "../model/attachment.model";
 //import multer from "multer";
-import { attachmentRequestBody } from "src/interface/task.interface";
+import { attachmentRequestBody } from "../interface/task.interface";
 /*
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage });

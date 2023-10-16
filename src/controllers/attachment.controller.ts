@@ -1,5 +1,5 @@
 import express from 'express';
-import { createTaskAttachment,  getTaskAttachment, deleteTaskAttachment } from 'src/services/attachment.services';
+import { createTaskAttachment,  getTaskAttachment, deleteTaskAttachment } from '../services/attachment.services';
 import mongoose from 'mongoose';
 export const createTaskAttachmentHandler = async (req: express.Request, res: express.Response) => {
     const {taskId} = req.params;

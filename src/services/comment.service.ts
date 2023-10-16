@@ -1,5 +1,5 @@
 import { commentModel } from "../model/comment.model";
-import { commentTaskRequestBody } from "src/interface/task.interface";
+import { commentTaskRequestBody } from "../interface/task.interface";
 // A function or users to be able to comment on a task
 export const commentTask = async (body: commentTaskRequestBody) => {
     const {comment} = body;
