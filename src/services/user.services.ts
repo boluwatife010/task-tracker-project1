@@ -1,6 +1,7 @@
 import { loginRequestBody, regiterRequestBody, updateRequestBody } from "../interface/user.interface";
 import { userModel } from "../model/user.model";
 import bcrypt from 'bcrypt';
+import { generateAuthToken } from "src/middleware/auth";
 
 export const userRegistration = async (body: regiterRequestBody): Promise<any> => {
     const {email, password, username} = body;
@@ -10,11 +11,12 @@ export const userRegistration = async (body: regiterRequestBody): Promise<any> =
     }
     const hashPassword = await bcrypt.hash(password, 10);
     const createUser = await userModel.create({email, password:hashPassword, username});
+    const token = generateAuthToken(createUser._id.toString());
     if (!createUser) {
         throw new Error ('Please validate your details above');
     }
     await createUser.save();
-    return {createUser};
+    return {createUser, token};
 }
 export const userLogin = async (body:loginRequestBody): Promise<any> => {
     const {email, password} = body;
@@ -29,7 +31,8 @@ export const userLogin = async (body:loginRequestBody): Promise<any> => {
     if (!comparing) {
         throw new Error ('Invalid password.');
     } 
-    return {login};
+    const token = generateAuthToken(login._id.toString());
+    return {login, token};
 }
 export const userUpdate = async (body:updateRequestBody, id: string) => {
     const {email, password, username} = body;
