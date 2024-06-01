@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticateAuthToken } from 'src/middleware/auth';
+import { authenticateAuthToken } from '../middleware/auth';
 import { userRegistrationHandler, userLoginHandler, updateUserHandler,getAUserHandler,deleteAUserHandler, getAllUsersHandler } from '../controllers/user.controllers';
 const router = express.Router();
 router.post('/register', userRegistrationHandler );

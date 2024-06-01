@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticateAuthToken } from 'src/middleware/auth';
+import { authenticateAuthToken } from '../middleware/auth';
 import { createTaskHandler, getATaskHandler, getAllTasksHandler,
      searchATaskHandler, updateATaskHandler, deleteATaskHandler,
      filterTasksHandler, categorizeTaskHandler, historyTaskHandler,

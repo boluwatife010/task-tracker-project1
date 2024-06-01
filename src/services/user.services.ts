@@ -1,13 +1,13 @@
 import { loginRequestBody, regiterRequestBody, updateRequestBody } from "../interface/user.interface";
 import { userModel } from "../model/user.model";
-import bcrypt from 'bcrypt';
-import { generateAuthToken } from "src/middleware/auth";
+import bcrypt from 'bcryptjs';
+import { generateAuthToken } from "../middleware/auth";
 
 export const userRegistration = async (body: regiterRequestBody): Promise<any> => {
     const {email, password, username} = body;
-    const userExists = await userModel.findOne({username, email, password});
-    if (!userExists) {
-        throw new Error('One of the data above is already in use.');
+    const userExists = await userModel.findOne({ email});
+    if (userExists) {
+        throw new Error('The email is already in use');
     }
     const hashPassword = await bcrypt.hash(password, 10);
     const createUser = await userModel.create({email, password:hashPassword, username});
@@ -23,9 +23,6 @@ export const userLogin = async (body:loginRequestBody): Promise<any> => {
     const login = await userModel.findOne({email});
     if (!login) {
         throw new Error ('Email is required.');
-    }
-    if (!login.password) {
-        throw new Error ('Password is required.');
     }
     const comparing = await bcrypt.compare(password, login.password);
     if (!comparing) {
